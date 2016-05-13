@@ -1,7 +1,13 @@
 import spark.Spark;
 
+import static spark.Spark.port;
+import static spark.Spark.staticFileLocation;
+
 public class WordSearch {
     public static void main(String[] args){
+
+        port(Integer.valueOf(System.getenv("PORT")));
+        staticFileLocation("/public");
 
         Spark.get(
                 "/capabilities",
