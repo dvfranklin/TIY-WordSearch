@@ -33,12 +33,17 @@ public class WordSearchService {
             puzzle.add(row);
         }
 
+        //loops through the existing matrix
         for(int i = 0; i < puzzle.size(); i++){
+            //sets the 6th character on each row to Z
             puzzle.get(i).set(5, "Z ");
             for(int j = 0; j < width; j++){
+                // creates a random letter
                 puzzle.get(i).get(j);
                 Random r = new Random();
                 char c = (char)(r.nextInt(26) + 'A');
+
+                // if there is already a letter there, leave it alone. if a blank space, enter random char
                 if(puzzle.get(i).get(j).equals(" ")){
                     puzzle.get(i).set(j, c + " ");
                 }
@@ -54,14 +59,17 @@ public class WordSearchService {
         Scanner scanner = new Scanner(dict);
         scanner.useDelimiter("\\Z");
 
+
+        // reads the entire dictionary file and splits into separate words
         String[] allWords = scanner.next().split("\n");
         List<String> words = Arrays.asList(allWords);
 
+        // filters to words between minLength & maxLength
         List<String> filteredWords = words.stream()
                 .filter(word -> word.length() >= minLength && word.length() <= maxLength)
                 .collect(Collectors.toList());
 
-
+        // picks a random word from the filtered list
         String word = filteredWords.get(new Random().nextInt(filteredWords.size()-1));
 
         return word;
@@ -70,6 +78,7 @@ public class WordSearchService {
     public void placeWord(String word, Puzzle puzzle){
         Random r = new Random();
 
+        // picks a random coordinate that exists in the matrix
         int x0 = r.nextInt(puzzle.getWidth());
         int y0 = r.nextInt(puzzle.getHeight());
 
