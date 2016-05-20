@@ -1,41 +1,56 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import spark.Spark;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
 
 public class WordSearch {
-    public static void main(String[] args){
+    public static void main(String[] args) throws FileNotFoundException {
 
         int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 4567;
         Spark.port(port);
+        WordSearchService service = new WordSearchService();
+
+        Puzzle puzzle = service.createPuzzle(10, 30);
+
+
+
+
+        for(int i = 0; i < puzzle.getPuzzle().size(); i++){
+            for(int j = 0; j < puzzle.getPuzzle().get(i).size(); j++){
+                System.out.print(puzzle.getPuzzle().get(i).get(j));
+            }
+            System.out.println();
+        }
+
+        System.out.println(service.getWord(5, 10).toUpperCase());
+
+        Random r = new Random();
+
+        int x0 = r.nextInt(puzzle.getWidth() - 1);
+        int y0 = r.nextInt(puzzle.getHeight() - 1);
+
+        System.out.println(x0 + "," + y0);
 
         Spark.get(
                 "/capabilities",
                 (request, response) -> {
-                    return "[\n" +
-                            "    {\n" +
-                            "        \"name\": \"Horizontal\",\n" +
-                            "        \"description\": \"Adds words horizontally in the puzzle\",\n" +
-                            "        \"keyword\": \"horizontal\" \n" +
-                            "    },\n" +
-                            "    {\n" +
-                            "        \"name\": \"Vertical\",\n" +
-                            "        \"description\": \"Adds words vertically in the puzzle\",\n" +
-                            "        \"keyword\": \"horizontal\" \n" +
-                            "    },\n" +
-                            "    {\n" +
-                            "        \"name\": \"Angle\",\n" +
-                            "        \"description\": \"Adds words at an angle in the puzzle\",\n" +
-                            "        \"keyword\": \"angle\" \n" +
-                            "    }\n" +
-                            "]";
+                    Gson gson = new GsonBuilder().create();
+                    ArrayList<Capability> capabilities = service.createCapabilities();
+                    return gson.toJson(capabilities);
                 }
         );
+
 
         Spark.post(
                 "/puzzle",
                 (request, response) -> {
-                    return "{\n" +
+                    /*return "{\n" +
                             "    \"puzzle\": [\n" +
                             "        [\"F\",\"Q\",\"P\",\"Y\",\"A\",\"M\",\"H\",\"W\",\"Q\",\"E\",\"Q\",\"A\",\"J\",\"K\",\"X\"],\n" +
                             "        [\"O\",\"W\",\"Z\",\"E\",\"W\",\"D\",\"S\",\"P\",\"C\",\"R\",\"J\",\"T\",\"R\",\"V\",\"S\"],\n" +
@@ -82,7 +97,11 @@ public class WordSearch {
                             "            }\n" +
                             "        }\n" +
                             "    ]\n" +
-                            "}";
+                            "}";*/
+
+
+
+                    return "";
                 }
         );
     }
