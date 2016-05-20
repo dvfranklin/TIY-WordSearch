@@ -16,7 +16,7 @@ public class WordSearchService {
         return capabilities;
     }
 
-    public Puzzle createPuzzle(int width, int height){
+    public ArrayList<ArrayList<String>> createPuzzle(int width, int height){
         Puzzle p = new Puzzle();
         p.setWidth(width);
         p.setHeight(height);
@@ -33,8 +33,7 @@ public class WordSearchService {
             puzzle.add(row);
         }
 
-        p.setPuzzle(puzzle);
-        return p;
+        return puzzle;
     }
 
     public String getWord(int minLength, int maxLength) throws FileNotFoundException {
@@ -66,13 +65,33 @@ public class WordSearchService {
         int y0 = r.nextInt(puzzle.getHeight());
         System.out.println(x0 + ", " + y0);
 
-        String word = getWord(4, 8);
 
-        while (true)
+        String word = getWord(4,8);
+
+        int direction = r.nextInt(2);
+        System.out.println(direction);
+        switch(direction) {
+            case 0:
+                horizontalWord(word, puzzle, x0, y0);
+                break;
+            case 1:
+                verticalWord(word, puzzle, x0, y0);
+                break;
+            /*case 3:
+                diagonalWord(word, puzzle, x0, y0);
+                break;*/
+        }
+
+    }
+
+    public void horizontalWord(String word, Puzzle puzzle, int x0, int y0) {
+        Random r = new Random();
+
+        while (true) {
             if (x0 + word.length() < puzzle.getWidth()) {
                 int count = 0;
-                for (int i = x0; i < word.length(); i++) {
-                    puzzle.getPuzzle().get(y0).set(i, (word.charAt(count) + " ").toUpperCase());
+                for (int i = x0; i < x0 + word.length(); i++) {
+                    puzzle.getPuzzle().get(y0).set(i, (word.charAt(count) + " ").toLowerCase());
                     count++;
                 }
                 System.out.println(word);
@@ -82,6 +101,28 @@ public class WordSearchService {
                 y0 = r.nextInt(puzzle.getHeight());
             }
         }
+    }
+
+    public void verticalWord(String word, Puzzle puzzle, int x0, int y0){
+        Random r = new Random();
+
+        while (true) {
+            if (y0 + word.length() < puzzle.getHeight()) {
+                int count = 0;
+                for (int i = y0; i < y0 + word.length(); i++) {
+                    puzzle.getPuzzle().get(i).set(x0, (word.charAt(count) + " ").toLowerCase());
+                    count++;
+                }
+                System.out.println(word);
+                break;
+            } else {
+                x0 = r.nextInt(puzzle.getWidth());
+                y0 = r.nextInt(puzzle.getHeight());
+            }
+        }
+
+    }
+
 
     public Puzzle randomLetters(Puzzle p){
         //loops through the existing matrix

@@ -16,7 +16,12 @@ public class WordSearch {
         Spark.port(port);
         WordSearchService service = new WordSearchService();
 
-        Puzzle puzzle = service.createPuzzle(30, 30);
+        Puzzle puzzle = new Puzzle();
+        puzzle.setHeight(20);
+        puzzle.setWidth(20);
+        puzzle.setPuzzle(service.createPuzzle(20,20));
+        service.placeWord(puzzle);
+        service.placeWord(puzzle);
         service.placeWord(puzzle);
         service.randomLetters(puzzle);
 
