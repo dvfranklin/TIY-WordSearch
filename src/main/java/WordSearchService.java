@@ -33,23 +33,6 @@ public class WordSearchService {
             puzzle.add(row);
         }
 
-        //loops through the existing matrix
-        for(int i = 0; i < puzzle.size(); i++){
-            //sets the 6th character on each row to Z
-            puzzle.get(i).set(5, "Z ");
-            for(int j = 0; j < width; j++){
-                // creates a random letter
-                puzzle.get(i).get(j);
-                Random r = new Random();
-                char c = (char)(r.nextInt(26) + 'A');
-
-                // if there is already a letter there, leave it alone. if a blank space, enter random char
-                if(puzzle.get(i).get(j).equals(" ")){
-                    puzzle.get(i).set(j, c + " ");
-                }
-            }
-        }
-
         p.setPuzzle(puzzle);
         return p;
     }
@@ -75,13 +58,51 @@ public class WordSearchService {
         return word;
     }
 
-    public void placeWord(String word, Puzzle puzzle){
+    public void placeWord(Puzzle puzzle) throws FileNotFoundException {
         Random r = new Random();
 
         // picks a random coordinate that exists in the matrix
         int x0 = r.nextInt(puzzle.getWidth());
         int y0 = r.nextInt(puzzle.getHeight());
+        System.out.println(x0 + ", " + y0);
 
-        System.out.println(x0 + y0);
+        String word = getWord(4, 8);
+
+        while (true)
+            if (x0 + word.length() < puzzle.getWidth()) {
+                int count = 0;
+                for (int i = x0; i < word.length(); i++) {
+                    puzzle.getPuzzle().get(y0).set(i, (word.charAt(count) + " ").toUpperCase());
+                    count++;
+                }
+                System.out.println(word);
+                break;
+            } else {
+                x0 = r.nextInt(puzzle.getWidth());
+                y0 = r.nextInt(puzzle.getHeight());
+            }
+        }
+
+    public Puzzle randomLetters(Puzzle p){
+        //loops through the existing matrix
+        for(int i = 0; i < p.getHeight(); i++){
+            //sets the 6th character on each row to Z
+            //p.get(i).set(5, "Z ");
+            for(int j = 0; j < p.getWidth(); j++){
+
+                // creates a random letter
+                p.getPuzzle().get(i).get(j);
+                Random r = new Random();
+                char c = (char)(r.nextInt(26) + 'A');
+
+                // if there is already a letter there, leave it alone. if a blank space, enter random char
+                if(p.getPuzzle().get(i).get(j).equals(" ")){
+                    p.getPuzzle().get(i).set(j, c + " ");
+                }
+            }
+        }
+
+        return p;
     }
+
 }

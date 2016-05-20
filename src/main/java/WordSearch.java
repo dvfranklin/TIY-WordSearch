@@ -16,8 +16,9 @@ public class WordSearch {
         Spark.port(port);
         WordSearchService service = new WordSearchService();
 
-        Puzzle puzzle = service.createPuzzle(10, 30);
-
+        Puzzle puzzle = service.createPuzzle(30, 30);
+        service.placeWord(puzzle);
+        service.randomLetters(puzzle);
 
 
 
@@ -28,14 +29,14 @@ public class WordSearch {
             System.out.println();
         }
 
-        System.out.println(service.getWord(5, 10).toUpperCase());
+        //System.out.println(service.getWord(4, 8).toUpperCase());
 
-        Random r = new Random();
+        /*Random r = new Random();
 
         int x0 = r.nextInt(puzzle.getWidth() - 1);
         int y0 = r.nextInt(puzzle.getHeight() - 1);
 
-        System.out.println(x0 + "," + y0);
+        System.out.println(x0 + "," + y0);*/
 
         Spark.get(
                 "/capabilities",
