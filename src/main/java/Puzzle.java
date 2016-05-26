@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public class Puzzle {
 
-    private ArrayList<ArrayList<String>> puzzle;
+    ArrayList<ArrayList<String>> puzzle;
     ArrayList<Word> words = new ArrayList<>();
 
 
