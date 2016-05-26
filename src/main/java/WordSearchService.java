@@ -5,6 +5,11 @@ import java.util.stream.Collectors;
 
 public class WordSearchService {
 
+    /**
+     * Adds capabilities to an Array List manually to be returned when requested by the front end
+     * Uncommenting them one at a time as supported
+     * @return An ArrayList of all the capabilities we are supporting
+     */
     public ArrayList<Capability> createCapabilities(){
         ArrayList<Capability> capabilities = new ArrayList<>();
 
@@ -16,18 +21,21 @@ public class WordSearchService {
         return capabilities;
     }
 
-    public ArrayList<ArrayList<String>> createPuzzle(int width, int height){
-        Puzzle p = new Puzzle();
-        p.setWidth(width);
-        p.setHeight(height);
+    /**
+     * This creates a matrix for us to use when generating the puzzle
+     * Since items in an ArrayList can't be accessed until they exist, we populate the puzzle with blank spaces
+     * @return An ArrayList of blank strings, to the height and width requested by front end
+     */
+    public ArrayList<ArrayList<String>> createPuzzle(){
+
         ArrayList<ArrayList<String>> puzzle = new ArrayList<>();
 
         // adds rows to the vertical matrix
-        for(int i = 0; i < height; i++){
-            ArrayList<String> row = new ArrayList<>(width);
+        for(int i = 0; i < PuzzleProperties.getHeight(); i++){
+            ArrayList<String> row = new ArrayList<>();
 
             // fills in a row with blank spaces
-            for(int j = 0; j < width; j++){
+            for(int j = 0; j < PuzzleProperties.getWidth(); j++){
                 row.add("  ");
             }
             puzzle.add(row);
@@ -36,7 +44,12 @@ public class WordSearchService {
         return puzzle;
     }
 
-    public String getWord(int minLength, int maxLength) throws FileNotFoundException {
+    /**
+     * Reads the dictionary file, filters by minLength & maxLength, and returns a random word from the filtered list
+     * @return A word that fits the min/max length parameters
+     * @throws FileNotFoundException If /usr/share/dict/words does not exist
+     */
+    public String getWord() throws FileNotFoundException {
         File dict = new File("/usr/share/dict/words");
         Scanner scanner = new Scanner(dict);
         scanner.useDelimiter("\\Z");
@@ -48,7 +61,7 @@ public class WordSearchService {
 
         // filters to words between minLength & maxLength
         List<String> filteredWords = words.stream()
-                .filter(word -> word.length() >= minLength && word.length() <= maxLength)
+                .filter(word -> word.length() >= PuzzleProperties.getMinLength() && word.length() <= PuzzleProperties.getMaxLength())
                 .collect(Collectors.toList());
 
         // picks a random word from the filtered list
@@ -57,7 +70,16 @@ public class WordSearchService {
         return word;
     }
 
-    public String getIntersectWord(int minLength, int maxLength, char intersectLetter, int intersectPoint) throws FileNotFoundException {
+
+    /**
+     *
+     * @param length
+     * @param intersectLetter
+     * @param intersectPoint
+     * @return
+     * @throws FileNotFoundException
+     */
+    public String getIntersectWord(int length, char intersectLetter, int intersectPoint) throws FileNotFoundException {
         File dict = new File("/usr/share/dict/words");
         Scanner scanner = new Scanner(dict);
         scanner.useDelimiter("\\Z");
@@ -69,7 +91,7 @@ public class WordSearchService {
 
         // filters to words between minLength & maxLength
         List<String> filteredWords = words.stream()
-                .filter(word -> word.length() >= minLength && word.length() <= maxLength)
+                .filter(word -> word.length() == length)
                 .filter(word -> word.toLowerCase().charAt(intersectPoint) == intersectLetter)
                 .collect(Collectors.toList());
 
@@ -79,19 +101,25 @@ public class WordSearchService {
         return word;
     }
 
-    public void placeWord(Puzzle puzzle, int numWords) throws FileNotFoundException {
+    /**
+     * Picks a random x & y coordinate, a random word and a random direction, then attempts to write it.
+     * Loops for as many words as specified by front end.
+     * @param puzzle The puzzle that the words will be placed in.
+     * @throws FileNotFoundException In case the dictionary file does not exist
+     */
+    public void placeWords(Puzzle puzzle) throws FileNotFoundException {
         Random r = new Random();
 
-        for(int i = 0; i < numWords; i++) {
+        for(int i = 0; i < PuzzleProperties.getNumberOfWords(); i++) {
             // picks a random coordinate that exists in the matrix
-            int x0 = r.nextInt(puzzle.getWidth());
-            int y0 = r.nextInt(puzzle.getHeight());
+            int x0 = r.nextInt(PuzzleProperties.getWidth());
+            int y0 = r.nextInt(PuzzleProperties.getHeight());
 
+            // gets a random word
+            String word = getWord();
 
-            String word = getWord(8, 10);
-
-            int direction = r.nextInt(2);
-
+            // picks a random direction based on the capabilities we are supporting
+            int direction = r.nextInt(PuzzleProperties.getCapabilities().size());
             switch (direction) {
                 case 0:
                     System.out.println("horizontal");
@@ -108,6 +136,14 @@ public class WordSearchService {
         }
     }
 
+    /**
+     *
+     * @param x0
+     * @param y0
+     * @param word
+     * @param puzzle
+     * @throws FileNotFoundException
+     */
     public void ghostWriter(int x0, int y0, String word, Puzzle puzzle) throws FileNotFoundException {
         Random r = new Random();
         ArrayList<String> checkLetters = new ArrayList<>();
@@ -115,7 +151,7 @@ public class WordSearchService {
 
 
         while (true) {
-            if (y0 + word.length() < puzzle.getHeight()) {
+            if (y0 + word.length() < PuzzleProperties.getHeight()) {
                 for (int i = y0, count = 0; i < y0 + word.length(); i++, count++) {
                     if (!puzzle.getPuzzle().get(i).get(x0).equals("  ")) {
                         // check path for letters
@@ -125,19 +161,27 @@ public class WordSearchService {
                 }
                 if (checkLetters.size() > 1) {
                     //get new coord
-                    x0 = r.nextInt(puzzle.getWidth());
-                    y0 = r.nextInt(puzzle.getHeight());
+                    x0 = r.nextInt(PuzzleProperties.getWidth());
+                    y0 = r.nextInt(PuzzleProperties.getHeight());
                     checkLetters.removeAll(checkLetters);
                 } else if (checkLetters.size() == 1) {
                     //get word that matches
                     char letter = checkLetters.get(0).charAt(0);
-                    word = getIntersectWord(word.length(), word.length(), letter, intersectPoint);
+                    word = getIntersectWord(word.length(), letter, intersectPoint);
                     checkLetters.removeAll(checkLetters);
                 }
             }
         }
     }
 
+    /**
+     *
+     * @param word
+     * @param puzzle
+     * @param x0
+     * @param y0
+     * @throws FileNotFoundException
+     */
     public void horizontalWord(String word, Puzzle puzzle, int x0, int y0) throws FileNotFoundException {
         Random r = new Random();
         ArrayList<Integer> coords = new ArrayList<>();
@@ -148,7 +192,7 @@ public class WordSearchService {
         while (true) {
 
             // make sure it fits inside array
-            if (x0 + word.length() < puzzle.getWidth()) {
+            if (x0 + word.length() < PuzzleProperties.getWidth()) {
 
                 // loops through the path the word will take
                 for(int i = x0, count = 0; i < x0 + word.length(); i++, count++) {
@@ -164,8 +208,8 @@ public class WordSearchService {
                     // if it intersects in 2+ points
                     if(checkLetters.size() > 1){
                         //get new coord
-                        x0 = r.nextInt(puzzle.getWidth());
-                        y0 = r.nextInt(puzzle.getHeight());
+                        x0 = r.nextInt(PuzzleProperties.getWidth());
+                        y0 = r.nextInt(PuzzleProperties.getHeight());
                         checkLetters.removeAll(checkLetters);
 
                     // if it's exactly 1
@@ -173,7 +217,7 @@ public class WordSearchService {
                         System.out.println("***INTERSECTION***");
                         //get word that matches
                         char letter = checkLetters.get(0).charAt(0);
-                            word = getIntersectWord(word.length(), word.length(), letter, intersectPoint);
+                            word = getIntersectWord(word.length(), letter, intersectPoint);
                             checkLetters.removeAll(checkLetters);
                         for (int i = x0, count = 0; i < x0 + word.length(); i++, count++) {
                             puzzle.getPuzzle().get(y0).set(i, (word.charAt(count) + " ").toLowerCase());
@@ -203,12 +247,20 @@ public class WordSearchService {
                         break;
                     }
             } else {
-                x0 = r.nextInt(puzzle.getWidth());
-                y0 = r.nextInt(puzzle.getHeight());
+                x0 = r.nextInt(PuzzleProperties.getWidth());
+                y0 = r.nextInt(PuzzleProperties.getHeight());
             }
         }
     }
 
+    /**
+     * 
+     * @param word
+     * @param puzzle
+     * @param x0
+     * @param y0
+     * @throws FileNotFoundException
+     */
     public void verticalWord(String word, Puzzle puzzle, int x0, int y0) throws FileNotFoundException {
         Random r = new Random();
         ArrayList<Integer> coords = new ArrayList<>();
@@ -217,7 +269,7 @@ public class WordSearchService {
 
 
         while (true) {
-            if (y0 + word.length() < puzzle.getHeight()) {
+            if (y0 + word.length() < PuzzleProperties.getHeight()) {
                 for(int i = y0, count = 0; i < y0 + word.length(); i++, count++) {
                     if (!puzzle.getPuzzle().get(i).get(x0).equals("  ")) {
                         // check path for letters
@@ -227,13 +279,13 @@ public class WordSearchService {
                 }
                 if(checkLetters.size() > 1){
                     //get new coord
-                    x0 = r.nextInt(puzzle.getWidth());
-                    y0 = r.nextInt(puzzle.getHeight());
+                    x0 = r.nextInt(PuzzleProperties.getWidth());
+                    y0 = r.nextInt(PuzzleProperties.getHeight());
                     checkLetters.removeAll(checkLetters);
                 } else if(checkLetters.size() == 1){
                     //get word that matches
                     char letter = checkLetters.get(0).charAt(0);
-                    word = getIntersectWord(word.length(), word.length(), letter, intersectPoint);
+                    word = getIntersectWord(word.length(), letter, intersectPoint);
                     checkLetters.removeAll(checkLetters);
 
                     for (int i = y0, count = 0; i < y0 + word.length(); i++, count++) {
@@ -266,18 +318,23 @@ public class WordSearchService {
                     break;
                 }
             } else {
-                x0 = r.nextInt(puzzle.getWidth());
-                y0 = r.nextInt(puzzle.getHeight());
+                x0 = r.nextInt(PuzzleProperties.getWidth());
+                y0 = r.nextInt(PuzzleProperties.getHeight());
             }
         }
 
     }
 
 
+    /**
+     * Populates the puzzle with random letters in all spaces that are not already occupied
+     * @param p The puzzle (after being populated with words)
+     * @return A puzzle with every space occupied by a letter
+     */
     public Puzzle randomLetters(Puzzle p){
         //loops through the existing matrix
-        for(int i = 0; i < p.getHeight(); i++){
-            for(int j = 0; j < p.getWidth(); j++){
+        for(int i = 0; i < PuzzleProperties.getHeight(); i++){
+            for(int j = 0; j < PuzzleProperties.getWidth(); j++){
 
                 // creates a random letter
                 p.getPuzzle().get(i).get(j);

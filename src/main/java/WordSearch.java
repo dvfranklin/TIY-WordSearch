@@ -11,20 +11,22 @@ import static spark.Spark.staticFileLocation;
 public class WordSearch {
     public static void main(String[] args) throws FileNotFoundException {
 
+        // if running on heroku, use the configured port
+        // otherwise, run on 4567
         int port = System.getenv("PORT") != null ? Integer.valueOf(System.getenv("PORT")) : 4567;
         Spark.port(port);
+
+        // until we add the controller for the post endpoint, we will have to create our puzzle manually
         WordSearchService service = new WordSearchService();
-
         Puzzle puzzle = new Puzzle();
-        puzzle.setHeight(20);
-        puzzle.setWidth(20);
-        puzzle.setNumberOfWords(5);
-        puzzle.setPuzzle(service.createPuzzle(puzzle.getWidth(), puzzle.getHeight()));
-        service.placeWord(puzzle, puzzle.getNumberOfWords());
-        service.randomLetters(puzzle);
+        new PuzzleProperties(20, 20, 10, 8, 10, service.createCapabilities());
+        puzzle.setPuzzle(service.createPuzzle());
+        service.placeWords(puzzle);
+        //service.randomLetters(puzzle);
 
 
 
+        // prints the entire puzzle to the console so we can make sure it worked
         for(int i = 0; i < puzzle.getPuzzle().size(); i++){
             for(int j = 0; j < puzzle.getPuzzle().get(i).size(); j++){
                 System.out.print(puzzle.getPuzzle().get(i).get(j));
@@ -32,15 +34,8 @@ public class WordSearch {
             System.out.println();
         }
 
-        //System.out.println(service.getWord(4, 8).toUpperCase());
 
-        /*Random r = new Random();
-
-        int x0 = r.nextInt(puzzle.getWidth() - 1);
-        int y0 = r.nextInt(puzzle.getHeight() - 1);
-
-        System.out.println(x0 + "," + y0);*/
-
+        // returns JSON representing the capabilities we support in the puzzle
         Spark.get(
                 "/capabilities",
                 (request, response) -> {
@@ -51,6 +46,7 @@ public class WordSearch {
         );
 
 
+        // todo - write the controller for this POST
         Spark.post(
                 "/puzzle",
                 (request, response) -> {

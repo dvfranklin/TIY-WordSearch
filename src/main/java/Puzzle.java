@@ -1,77 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * This is the puzzle to be returned from our POST /puzzle endpoint. It contains the Matrix of letters making up the word search,
+ * and the words (along with the coordinates where they can be found).
+ */
 public class Puzzle {
 
-    WordSearchService service = new WordSearchService();
-
-    private int height;
-    private int width;
-    private int numberOfWords;
-    private int minLength;
-    private int maxLength;
-    private ArrayList<Capability> capabilities;
     private ArrayList<ArrayList<String>> puzzle;
     ArrayList<Word> words = new ArrayList<>();
 
-    //service.createPuzzle(width, height);
-
-
-
-    public WordSearchService getService() {
-        return service;
-    }
-
-    public void setService(WordSearchService service) {
-        this.service = service;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getNumberOfWords() {
-        return numberOfWords;
-    }
-
-    public void setNumberOfWords(int numberOfWords) {
-        this.numberOfWords = numberOfWords;
-    }
-
-    public int getMinLength() {
-        return minLength;
-    }
-
-    public void setMinLength(int minLength) {
-        this.minLength = minLength;
-    }
-
-    public int getMaxLength() {
-        return maxLength;
-    }
-
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
-    }
-
-    public ArrayList<Capability> getCapabilities() {
-        return capabilities;
-    }
-
-    public void setCapabilities(ArrayList<Capability> capabilities) {
-        this.capabilities = capabilities;
-    }
 
     public ArrayList<ArrayList<String>> getPuzzle() {
         return puzzle;
