@@ -115,8 +115,8 @@ public class WordSearchService {
 
         for(int i = 0; i < PuzzleProperties.getNumberOfWords(); i++) {
             // picks a random coordinate that exists in the matrix
-            int x0 = r.nextInt(PuzzleProperties.getWidth());
-            int y0 = r.nextInt(PuzzleProperties.getHeight());
+            int x0 = randomX();
+            int y0 = randomY();
 
             // gets a random word
             String word = getWord();
@@ -138,44 +138,56 @@ public class WordSearchService {
         }
     }
 
+    /**
+     *
+     * @param P
+     * @param w
+     * @param direction
+     * @throws FileNotFoundException
+     */
     public void ghostWriter(Puzzle P, Word w, int direction) throws FileNotFoundException {
 
         ArrayList<String> checkLetters = new ArrayList<>();
         int intersectPoint = 0;
         Random random = new Random();
+        int xCoord = w.getX();
+        int yCoord = w.getY();
 
         while(true) {
-            int xCoord = w.getX();
-            int yCoord = w.getY();
-
-            for (int count = 0; count < w.word.length(); count++) {
-                if (!P.puzzle.get(yCoord).get(xCoord).equals("  ")) {
-                    checkLetters.add(P.puzzle.get(yCoord).get(xCoord));
-                    intersectPoint = count;
+            if ((xCoord + w.word.length() < PuzzleProperties.getWidth()) && (yCoord + w.word.length() < PuzzleProperties.getHeight())) {
+                for (int count = 0; count < w.word.length(); count++) {
+                    if (!P.puzzle.get(yCoord).get(xCoord).equals("  ")) {
+                        checkLetters.add(P.puzzle.get(yCoord).get(xCoord));
+                        intersectPoint = count;
+                    }
+                    switch (direction) {
+                        case (0):
+                            xCoord++;
+                            break;
+                        case (1):
+                            yCoord++;
+                            break;
+                    }
                 }
-                switch (direction) {
-                    case (0):
-                        xCoord++;
-                        break;
-                    case (1):
-                        yCoord++;
-                        break;
-                }
-            }
 
-            if (checkLetters.size() > 1) {
-                xCoord = random.nextInt(PuzzleProperties.getWidth());
-                yCoord = random.nextInt(PuzzleProperties.getHeight());
-            } else if (checkLetters.size() == 1) {
-                char letter = checkLetters.get(0).charAt(0);
-                getIntersectWord(w.word.length(), letter, intersectPoint);
+                if (checkLetters.size() > 1) {
+                    xCoord = randomX();
+                    yCoord = randomY();
+                } else if (checkLetters.size() == 1) {
+                    char letter = checkLetters.get(0).charAt(0);
+                    getIntersectWord(w.word.length(), letter, intersectPoint);
+                } else {
+                    printWord(w);
+                }
             } else {
-                printWord(w);
+                xCoord = randomX();
+                yCoord = randomY();
             }
         }
     }
 
     public void printWord(Word w){
+
 
     }
 
@@ -202,6 +214,16 @@ public class WordSearchService {
         }
 
         return p;
+    }
+
+    public int randomX(){
+        Random r = new Random();
+        return r.nextInt(PuzzleProperties.getWidth());
+    }
+
+    public int randomY(){
+        Random r = new Random();
+        return r.nextInt(PuzzleProperties.getHeight());
     }
 
 /*
