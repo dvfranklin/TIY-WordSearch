@@ -4,7 +4,6 @@ import spark.Spark;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
@@ -19,10 +18,9 @@ public class WordSearch {
         Puzzle puzzle = new Puzzle();
         puzzle.setHeight(20);
         puzzle.setWidth(20);
-        puzzle.setPuzzle(service.createPuzzle(20,20));
-        service.placeWord(puzzle);
-        service.placeWord(puzzle);
-        service.placeWord(puzzle);
+        puzzle.setNumberOfWords(5);
+        puzzle.setPuzzle(service.createPuzzle(puzzle.getWidth(), puzzle.getHeight()));
+        service.placeWord(puzzle, puzzle.getNumberOfWords());
         service.randomLetters(puzzle);
 
 

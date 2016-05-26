@@ -11,6 +11,7 @@ public class Puzzle {
     private int maxLength;
     private ArrayList<Capability> capabilities;
     private ArrayList<ArrayList<String>> puzzle;
+    ArrayList<Word> words = new ArrayList<>();
 
     //service.createPuzzle(width, height);
 
@@ -78,5 +79,13 @@ public class Puzzle {
 
     public void setPuzzle(ArrayList<ArrayList<String>> puzzle) {
         this.puzzle = puzzle;
+    }
+
+    public ArrayList<Word> getWords() {
+        return words;
+    }
+
+    public void setWords(ArrayList<Word> words) {
+        this.words = words;
     }
 }
