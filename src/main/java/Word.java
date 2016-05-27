@@ -14,11 +14,29 @@ public class Word {
     }
 
 
+    // returns starting x coord of a word
     public int getX(){
         return location.get("x0");
     }
 
+    // returns starting y coord of a word
     public int getY(){
         return location.get("y0");
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public HashMap<String, Integer> getLocation() {
+        return location;
+    }
+
+    public void setLocation(HashMap<String, Integer> location) {
+        this.location = location;
     }
 }

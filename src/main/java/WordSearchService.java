@@ -73,11 +73,11 @@ public class WordSearchService {
 
 
     /**
-     *
-     * @param length
-     * @param intersectLetter
-     * @param intersectPoint
-     * @return
+     * If the ghost writer determines that a word will intersect, this method will find a word that has the correct letter in the correct space
+     * @param length How long the word must be
+     * @param intersectLetter What the intersecting letter is
+     * @param intersectPoint At what point in the word the intersecting letter appears
+     * @return A word that fits in the correct place
      * @throws FileNotFoundException
      */
     public String getIntersectWord(int length, char intersectLetter, int intersectPoint) throws FileNotFoundException {
@@ -98,8 +98,6 @@ public class WordSearchService {
 
         // picks a random word from the filtered list
         String word = filteredWords.get(new Random().nextInt(filteredWords.size()-1));
-
-//        printWord(w);
 
         return word;
     }
@@ -139,25 +137,24 @@ public class WordSearchService {
     }
 
     /**
-     *
-     * @param P
-     * @param w
-     * @param direction
-     * @throws FileNotFoundException
+     * Starting at the x1, y1 coords, checks the path the word will take to determine if it will intersect with another word
+     * @param p The puzzle that we are inserting the word into
+     * @param w The word that we are checking the path for
+     * @param direction An integer representing the direction the word is going (horizontal, vertical, diagonal, etc.)
+     * @throws FileNotFoundException Because it calls the getWord function that needs a dictionary file
      */
-    public void ghostWriter(Puzzle P, Word w, int direction) throws FileNotFoundException {
+    public void ghostWriter(Puzzle p, Word w, int direction) throws FileNotFoundException {
 
         ArrayList<String> checkLetters = new ArrayList<>();
         int intersectPoint = 0;
-        Random random = new Random();
         int xCoord = w.getX();
         int yCoord = w.getY();
 
         while(true) {
             if ((xCoord + w.word.length() < PuzzleProperties.getWidth()) && (yCoord + w.word.length() < PuzzleProperties.getHeight())) {
                 for (int count = 0; count < w.word.length(); count++) {
-                    if (!P.puzzle.get(yCoord).get(xCoord).equals("  ")) {
-                        checkLetters.add(P.puzzle.get(yCoord).get(xCoord));
+                    if (!p.puzzle.get(yCoord).get(xCoord).equals("  ")) {
+                        checkLetters.add(p.puzzle.get(yCoord).get(xCoord));
                         intersectPoint = count;
                     }
                     switch (direction) {
@@ -173,11 +170,15 @@ public class WordSearchService {
                 if (checkLetters.size() > 1) {
                     xCoord = randomX();
                     yCoord = randomY();
+                    checkLetters.removeAll(checkLetters);
                 } else if (checkLetters.size() == 1) {
                     char letter = checkLetters.get(0).charAt(0);
-                    getIntersectWord(w.word.length(), letter, intersectPoint);
+                    w.setWord(getIntersectWord(w.word.length(), letter, intersectPoint));
+                    printWord(p, w, direction);
+                    break;
                 } else {
-                    printWord(w);
+                    printWord(p, w, direction);
+                    break;
                 }
             } else {
                 xCoord = randomX();
@@ -186,9 +187,39 @@ public class WordSearchService {
         }
     }
 
-    public void printWord(Word w){
+    /**
+     *
+     * @param p
+     * @param w
+     * @param direction
+     */
+    public void printWord(Puzzle p, Word w, int direction){
+        // for (each letter in word)
+        // add that letter to the correct spot in matrix
+        int xCoord = w.getX();
+        int yCoord = w.getY();
 
+        while(true) {
+            if ((xCoord + w.word.length() < PuzzleProperties.getWidth()) && (yCoord + w.word.length() < PuzzleProperties.getHeight())) {
+                for (int count = 0; count < w.word.length(); count++) {
+                    p.puzzle.get(yCoord).set(xCoord, (w.word.charAt(count) + " ").toUpperCase());
+                    switch (direction) {
+                        case (0):
+                            xCoord++;
+                            break;
+                        case (1):
+                            yCoord++;
+                            break;
+                    }
+                }
 
+                break;
+
+            } else {
+                xCoord = randomX();
+                yCoord = randomY();
+            }
+        }
     }
 
     /**
@@ -216,32 +247,29 @@ public class WordSearchService {
         return p;
     }
 
+    /**
+     * Creates a new random X coordinate inside the width of the puzzle
+     * @return The new X coord
+     */
     public int randomX(){
         Random r = new Random();
         return r.nextInt(PuzzleProperties.getWidth());
     }
 
+    /**
+     * Creates a new random Y coordinate inside the height of the puzzle
+     * @return The new Y coord
+     */
     public int randomY(){
         Random r = new Random();
         return r.nextInt(PuzzleProperties.getHeight());
     }
 
-/*
-    */
-/**
-     *
-     * @param word
-     * @param puzzle
-     * @param x0
-     * @param y0
-     * @throws FileNotFoundException
-     *//*
+
+    /*
 
     public void horizontalWord(String word, Puzzle puzzle, int x0, int y0) throws FileNotFoundException {
-        Random r = new Random();
-        ArrayList<Integer> coords = new ArrayList<>();
-        ArrayList<String> checkLetters = new ArrayList<>();
-        int intersectPoint = 0;
+
 
 
         while (true) {
@@ -249,38 +277,7 @@ public class WordSearchService {
             // make sure it fits inside array
             if (x0 + word.length() < PuzzleProperties.getWidth()) {
 
-                // loops through the path the word will take
-                for(int i = x0, count = 0; i < x0 + word.length(); i++, count++) {
 
-                    // if there's something there that's not a blank space
-                    if (!puzzle.getPuzzle().get(y0).get(i).equals("  ")) {
-                        // check path for letters
-                        checkLetters.add(puzzle.getPuzzle().get(y0).get(i));
-                        intersectPoint = count;
-                    }
-                }
-
-                    // if it intersects in 2+ points
-                    if(checkLetters.size() > 1){
-                        //get new coord
-                        x0 = r.nextInt(PuzzleProperties.getWidth());
-                        y0 = r.nextInt(PuzzleProperties.getHeight());
-                        checkLetters.removeAll(checkLetters);
-
-                    // if it's exactly 1
-                    } else if(checkLetters.size() == 1){
-                        System.out.println("***INTERSECTION***");
-                        //get word that matches
-                        char letter = checkLetters.get(0).charAt(0);
-                            word = getIntersectWord(word.length(), letter, intersectPoint);
-                            checkLetters.removeAll(checkLetters);
-                        for (int i = x0, count = 0; i < x0 + word.length(); i++, count++) {
-                            puzzle.getPuzzle().get(y0).set(i, (word.charAt(count) + " ").toLowerCase());
-                        }
-
-                        System.out.println(word);
-
-                        break;
                     } else {
 
                         for (int i = x0, count = 0; i < x0 + word.length(); i++, count++) {
@@ -298,35 +295,4 @@ public class WordSearchService {
     }
 
     */
-/**
-     *
-     * @param word
-     * @param puzzle
-     * @param x0
-     * @param y0
-     * @throws FileNotFoundException
-     *//*
-
-    public void verticalWord(String word, Puzzle puzzle, int x0, int y0) throws FileNotFoundException {
-        Random r = new Random();
-        ArrayList<Integer> coords = new ArrayList<>();
-        ArrayList<String> checkLetters = new ArrayList<>();
-        int intersectPoint = 0;
-
-
-        while (true) {
-            for (int i = y0, count = 0; i < y0 + word.length(); i++, count++) {
-                puzzle.getPuzzle().get(i).set(x0, (word.charAt(count) + " ").toLowerCase());
-            }
-
-            System.out.println(word);
-            break;
-        }
-    }
-*/
-
-
-
-
-
 }

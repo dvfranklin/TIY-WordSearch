@@ -19,7 +19,7 @@ public class WordSearch {
         // until we add the controller for the post endpoint, we will have to create our puzzle manually
         WordSearchService service = new WordSearchService();
         Puzzle puzzle = new Puzzle();
-        new PuzzleProperties(20, 20, 10, 8, 10, service.createCapabilities());
+        new PuzzleProperties(20, 20, 5, 5, 7, service.createCapabilities());
         puzzle.setPuzzle(service.createPuzzle());
         service.placeWords(puzzle);
         //service.randomLetters(puzzle);
@@ -34,6 +34,7 @@ public class WordSearch {
             System.out.println();
         }
 
+        System.out.println(puzzle.getWords());
 
         // returns JSON representing the capabilities we support in the puzzle
         Spark.get(
