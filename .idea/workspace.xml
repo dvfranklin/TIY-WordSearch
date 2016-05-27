@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cace7f9-ba98-4912-a69d-0714810687ba" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/Temp.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Temp.java" afterPath="$PROJECT_DIR$/src/main/java/Temp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Puzzle.java" afterPath="$PROJECT_DIR$/src/main/java/Puzzle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Word.java" afterPath="$PROJECT_DIR$/src/main/java/Word.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/WordSearch.java" afterPath="$PROJECT_DIR$/src/main/java/WordSearch.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/WordSearchService.java" afterPath="$PROJECT_DIR$/src/main/java/WordSearchService.java" />
     </list>
     <ignored path="TIY-WordSearch.iws" />
@@ -30,21 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WordSearchService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/WordSearchService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="204" column="97" selection-start-line="204" selection-start-column="97" selection-end-line="204" selection-end-column="97" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Puzzle.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Puzzle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+            <state relative-caret-position="135">
+              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -53,24 +43,34 @@
       <file leaf-file-name="Word.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Word.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+            <state relative-caret-position="285">
+              <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
               <folding>
-                <element signature="e#642#643#0" expanded="true" />
-                <element signature="e#669#670#0" expanded="true" />
+                <element signature="e#650#651#0" expanded="true" />
+                <element signature="e#677#678#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WordSearch.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WordSearch.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/WordSearch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="36" column="46" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
+            <state relative-caret-position="230">
+              <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WordSearchService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/WordSearchService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="690">
+              <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -99,11 +99,11 @@
         <option value="$PROJECT_DIR$/src/main/java/Capability.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/PuzzleProperties.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Puzzle.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Word.java" />
         <option value="$PROJECT_DIR$/src/main/java/Temp.java" />
-        <option value="$PROJECT_DIR$/src/main/java/WordSearchService.java" />
         <option value="$PROJECT_DIR$/src/main/java/WordSearch.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Puzzle.java" />
+        <option value="$PROJECT_DIR$/src/main/java/WordSearchService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Word.java" />
       </list>
     </option>
   </component>
@@ -690,12 +690,12 @@
       <workItem from="1464208445350" duration="1632000" />
       <workItem from="1464267533013" duration="5738000" />
       <workItem from="1464282566056" duration="10512000" />
-      <workItem from="1464360327998" duration="5265000" />
+      <workItem from="1464360327998" duration="6879000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68451000" />
+    <option name="totallyTimeSpent" value="70065000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
@@ -709,7 +709,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -744,27 +744,21 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/WordSearchService.java</url>
-          <line>204</line>
+          <line>205</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/WordSearchService.java</url>
-          <line>126</line>
+          <line>99</line>
           <properties />
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/WordSearchService.java</url>
-          <line>169</line>
-          <properties />
-          <option name="timeStamp" value="19" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="20" />
+      <option name="time" value="21" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -784,15 +778,15 @@
           <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -839,15 +833,15 @@
           <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -892,15 +886,15 @@
           <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -971,15 +965,15 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1024,15 +1018,15 @@
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1077,15 +1071,15 @@
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1130,15 +1124,15 @@
           <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#570#571#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="true" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#741#742#0" expanded="false" />
-            <element signature="e#794#795#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-            <element signature="e#891#892#0" expanded="false" />
-            <element signature="e#931#932#0" expanded="false" />
+            <element signature="e#578#579#0" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="false" />
+            <element signature="e#749#750#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#833#834#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#939#940#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1247,46 +1241,44 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Word.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-          <folding>
-            <element signature="e#642#643#0" expanded="true" />
-            <element signature="e#669#670#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Puzzle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+        <state relative-caret-position="135">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/WordSearchService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Word.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="204" column="97" selection-start-line="204" selection-start-column="97" selection-end-line="204" selection-end-column="97" />
-          <folding />
+        <state relative-caret-position="285">
+          <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+          <folding>
+            <element signature="e#650#651#0" expanded="true" />
+            <element signature="e#677#678#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WordSearch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="36" column="46" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
+        <state relative-caret-position="230">
+          <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/WordSearchService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
+          <folding />
         </state>
       </provider>
     </entry>

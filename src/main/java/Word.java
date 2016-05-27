@@ -5,7 +5,7 @@ import java.util.HashMap;
  * The words that are hidden in the puzzle, representing by a String and the coordinates where the word can be found.
  */
 public class Word {
-    String word;
+    private String word;
     private HashMap<String, Integer> location;
 
     public Word(String word, HashMap<String, Integer> location) {
@@ -16,12 +16,12 @@ public class Word {
 
     // returns starting x coord of a word
     public int getX(){
-        return location.get("x0");
+        return location.get("x1");
     }
 
     // returns starting y coord of a word
     public int getY(){
-        return location.get("y0");
+        return location.get("y1");
     }
 
     public String getWord() {
