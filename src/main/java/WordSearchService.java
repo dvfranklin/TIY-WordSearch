@@ -15,9 +15,12 @@ public class WordSearchService {
 
         capabilities.add(new Capability("Horizontal", "Adds words horizontally in the puzzle", "horizontal"));
         capabilities.add(new Capability("Vertical", "Adds words vertically in the puzzle", "vertical"));
-        //capabilities.add(new Capability("Diagonal Up", "Adds words diagonally in the puzzle", "diagonUp"));
-        //capabilities.add(new Capability("Diagonal Down", Adds words diagonally down in the puzzle", "diagonDown"));
-        //capabilities.add(new Capability("Backward", "Adds words backwards in the puzzle", "backward"));
+        capabilities.add(new Capability("Diagonal Down", "Adds words diagonally down in the puzzle", "diagDown"));
+        capabilities.add(new Capability("Diagonal Up", "Adds words diagonally in the puzzle", "diagUp"));
+        capabilities.add(new Capability("Backward", "Adds words horizontally backwards in the puzzle", "backHoriz"));
+        capabilities.add(new Capability("Backward Vertical", "Adds words vertically backwards in the puzzle", "backVert"));
+        capabilities.add(new Capability("Backward Diagonal Up", "Adds words diagonally up and backwards in the puzzle", "backDiagUp"));
+        capabilities.add(new Capability("Backward Diagonal Down", "Adds words diagonally down and backwards in the puzzle", "backDiagDown"));
 
         return capabilities;
     }
@@ -37,7 +40,7 @@ public class WordSearchService {
 
             // fills in a row with blank spaces
             for(int j = 0; j < PuzzleProperties.getWidth(); j++){
-                row.add("  ");
+                row.add(" ");
             }
             puzzle.add(row);
         }
@@ -50,8 +53,8 @@ public class WordSearchService {
      * @return A word that fits the min/max length parameters
      * @throws FileNotFoundException If /usr/share/dict/words does not exist
      */
-    public String getWord() throws FileNotFoundException {
-        File dict = new File("/usr/share/dict/words");
+    private String getWord() throws FileNotFoundException {
+        File dict = new File("words");
         Scanner scanner = new Scanner(dict);
         scanner.useDelimiter("\\Z");
 
@@ -80,8 +83,8 @@ public class WordSearchService {
      * @return A word that fits in the correct place
      * @throws FileNotFoundException
      */
-    public String getIntersectWord(int length, char intersectLetter, int intersectPoint) throws FileNotFoundException {
-        File dict = new File("/usr/share/dict/words");
+    private String getIntersectWord(int length, char intersectLetter, int intersectPoint) throws FileNotFoundException {
+        File dict = new File("words");
         Scanner scanner = new Scanner(dict);
         scanner.useDelimiter("\\Z");
 
@@ -125,14 +128,9 @@ public class WordSearchService {
 
             // picks a random direction based on the capabilities we are supporting
             int direction = r.nextInt(PuzzleProperties.getCapabilities().size());
-            switch (direction) {
-                case 0:
-                    ghostWriter(puzzle, w, 0);
-                    break;
-                case 1:
-                    ghostWriter(puzzle, w, 1);
-                    break;
-            }
+
+            ghostWriter(puzzle, w, direction);
+
         }
     }
 
@@ -147,13 +145,14 @@ public class WordSearchService {
 
         ArrayList<String> checkLetters = new ArrayList<>();
         int intersectPoint = 0;
-        int xCoord = w.getX();
-        int yCoord = w.getY();
+        int xCoord = w.getLocation().get("x1");
+        int yCoord = w.getLocation().get("y1");
 
+        //todo: rewrite this long ass if clause as a method - if going foward check against width/height, if backward against zero
         while(true) {
-            if ((xCoord + w.getWord().length() < PuzzleProperties.getWidth()) && (yCoord + w.getWord().length() < PuzzleProperties.getHeight())) {
+            if (fitsInPuzzle(xCoord, yCoord, w, direction)){
                 for (int count = 0; count < w.getWord().length(); count++) {
-                    if (!p.getPuzzle().get(yCoord).get(xCoord).equals("  ")) {
+                    if (!p.getPuzzle().get(yCoord).get(xCoord).equals(" ")) {
                         checkLetters.add(p.getPuzzle().get(yCoord).get(xCoord));
                         intersectPoint = count;
                     }
@@ -164,12 +163,36 @@ public class WordSearchService {
                         case (1):
                             yCoord++;
                             break;
+                        case (2):
+                            xCoord++;
+                            yCoord++;
+                            break;
+                        case (3):
+                            xCoord++;
+                            yCoord--;
+                            break;
+                        case (4):
+                            xCoord--;
+                            break;
+                        case (5):
+                            yCoord--;
+                            break;
+                        case (6):
+                            xCoord--;
+                            yCoord--;
+                            break;
+                        case (7):
+                            xCoord--;
+                            yCoord++;
+                            break;
                     }
                 }
 
                 if (checkLetters.size() > 1) {
                     xCoord = randomX();
+                    w.getLocation().put("x1", xCoord);
                     yCoord = randomY();
+                    w.getLocation().put("y1", yCoord);
                     checkLetters.removeAll(checkLetters);
                 } else if (checkLetters.size() == 1) {
                     Character letter = checkLetters.get(0).charAt(0);
@@ -183,7 +206,9 @@ public class WordSearchService {
                 }
             } else {
                 xCoord = randomX();
+                w.getLocation().put("x1", xCoord);
                 yCoord = randomY();
+                w.getLocation().put("y1", yCoord);
             }
         }
     }
@@ -194,16 +219,16 @@ public class WordSearchService {
      * @param w
      * @param direction
      */
-    public void printWord(Puzzle p, Word w, int direction){
+    private void printWord(Puzzle p, Word w, int direction){
         // for (each letter in word)
         // add that letter to the correct spot in matrix
         int xCoord = w.getLocation().get("x1");
         int yCoord = w.getLocation().get("y1");
 
         while(true) {
-            if ((xCoord + w.getWord().length() < PuzzleProperties.getWidth()) && (yCoord + w.getWord().length() < PuzzleProperties.getHeight())) {
+            if (fitsInPuzzle(xCoord, yCoord, w, direction)){
                 for (int count = 0; count < w.getWord().length(); count++) {
-                    p.getPuzzle().get(yCoord).set(xCoord, (w.getWord().charAt(count) + " ").toUpperCase());
+                    p.getPuzzle().get(yCoord).set(xCoord, (w.getWord().charAt(count) + "").toUpperCase());
                     switch (direction) {
                         case (0):
                             xCoord++;
@@ -211,15 +236,40 @@ public class WordSearchService {
                         case (1):
                             yCoord++;
                             break;
+                        case (2):
+                            xCoord++;
+                            yCoord++;
+                            break;
+                        case (3):
+                            xCoord++;
+                            yCoord--;
+                            break;
+                        case (4):
+                            xCoord--;
+                            break;
+                        case (5):
+                            yCoord--;
+                            break;
+                        case (6):
+                            xCoord--;
+                            yCoord--;
+                            break;
+                        case (7):
+                            xCoord--;
+                            yCoord++;
+                            break;
                     }
                 }
                 w.getLocation().put("x2", xCoord);
                 w.getLocation().put("y2", yCoord);
+                p.getWords().add(w);
                 break;
 
             } else {
                 xCoord = randomX();
+                w.getLocation().put("x1", xCoord);
                 yCoord = randomY();
+                w.getLocation().put("y1", yCoord);
             }
         }
     }
@@ -240,8 +290,8 @@ public class WordSearchService {
                 char c = (char)(r.nextInt(26) + 'A');
 
                 // if there is already a letter there, leave it alone. if a blank space, enter random char
-                if(p.getPuzzle().get(i).get(j).equals("  ")){
-                    p.getPuzzle().get(i).set(j, c + " ");
+                if(p.getPuzzle().get(i).get(j).equals(" ")){
+                   p.getPuzzle().get(i).set(j, c + "");
                 }
             }
         }
@@ -249,11 +299,43 @@ public class WordSearchService {
         return p;
     }
 
+    public boolean fitsInPuzzle(int xCoord, int yCoord, Word w, int direction){
+        //if word fits in height & width of puzzle
+        if ((xCoord + w.getWord().length() < PuzzleProperties.getWidth()) && (yCoord + w.getWord().length() < PuzzleProperties.getHeight())
+                // and direction is horizontal, vertical, diagonal down
+                && (direction >= 0 && direction <= 2)){ return true; }
+
+        //if word fits in width of puzzle & zero vertical bound
+        else if((xCoord + w.getWord().length() < PuzzleProperties.getWidth()) && (yCoord - w.getWord().length() > 0)
+                // and direction is diagonal up
+                && (direction == 3))  { return true; }
+
+        // if backwards horizontal, check against zero
+        else if((xCoord - w.getWord().length() > 0) && (direction == 4)){ return true; }
+
+        // if backwards vertical, check against zero
+        else if ((yCoord - w.getWord().length() > 0) && (direction == 5)) { return true; }
+
+        // if backward diagonal up, check both x & y against zero
+        else if((xCoord - w.getWord().length() > 0) && (yCoord - w.getWord().length() > 0)
+                && (direction == 6)) { return true; }
+
+        // if backward diagonal down, check x against zero and y against height
+        else if((xCoord - w.getWord().length() > 0) && (yCoord + w.getWord().length() < PuzzleProperties.getHeight())
+                && (direction == 7)){ return true;}
+
+        else{
+            return false;
+        }
+
+    }
+
+
     /**
      * Creates a new random X coordinate inside the width of the puzzle
      * @return The new X coord
      */
-    public int randomX(){
+    private int randomX(){
         Random r = new Random();
         return r.nextInt(PuzzleProperties.getWidth());
     }
@@ -262,7 +344,7 @@ public class WordSearchService {
      * Creates a new random Y coordinate inside the height of the puzzle
      * @return The new Y coord
      */
-    public int randomY(){
+    private int randomY(){
         Random r = new Random();
         return r.nextInt(PuzzleProperties.getHeight());
     }

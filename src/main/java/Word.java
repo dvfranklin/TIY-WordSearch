@@ -39,4 +39,8 @@ public class Word {
     public void setLocation(HashMap<String, Integer> location) {
         this.location = location;
     }
+
+    public String toString(){
+        return word + ", located at " + location.get("x1") + "," + location.get("y1") + " to " + location.get("x2") + "," + location.get("y2") + "\n";
+    }
 }

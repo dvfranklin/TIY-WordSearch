@@ -22,25 +22,27 @@ public class WordSearch {
         new PuzzleProperties(20, 20, 5, 5, 7, service.createCapabilities());
         puzzle.setPuzzle(service.createPuzzle());
         service.placeWords(puzzle);
-        //service.randomLetters(puzzle);
+        service.randomLetters(puzzle);
 
 
 
         // prints the entire puzzle to the console so we can make sure it worked
         for(int i = 0; i < puzzle.getPuzzle().size(); i++){
             for(int j = 0; j < puzzle.getPuzzle().get(i).size(); j++){
-                System.out.print(puzzle.getPuzzle().get(i).get(j));
+                System.out.print(puzzle.getPuzzle().get(i).get(j) + " ");
             }
             System.out.println();
         }
 
         System.out.println(puzzle.getWords());
 
+        Gson gson = new GsonBuilder().create();
+
+
         // returns JSON representing the capabilities we support in the puzzle
         Spark.get(
                 "/capabilities",
                 (request, response) -> {
-                    Gson gson = new GsonBuilder().create();
                     ArrayList<Capability> capabilities = service.createCapabilities();
                     return gson.toJson(capabilities);
                 }
@@ -51,6 +53,11 @@ public class WordSearch {
         Spark.post(
                 "/puzzle",
                 (request, response) -> {
+
+                    //String puzzleJson = request.queryParams("planet");
+
+                    return gson.toJson(puzzle);
+
                     /*return "{\n" +
                             "    \"puzzle\": [\n" +
                             "        [\"F\",\"Q\",\"P\",\"Y\",\"A\",\"M\",\"H\",\"W\",\"Q\",\"E\",\"Q\",\"A\",\"J\",\"K\",\"X\"],\n" +
@@ -101,8 +108,6 @@ public class WordSearch {
                             "}";*/
 
 
-
-                    return "";
                 }
         );
     }
