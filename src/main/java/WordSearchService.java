@@ -10,7 +10,7 @@ public class WordSearchService {
      * Uncommenting them one at a time as supported
      * @return An ArrayList of all the capabilities we are supporting
      */
-    public ArrayList<Capability> createCapabilities(){
+    public ArrayList<Capability> createAllCapabilities(){
         ArrayList<Capability> capabilities = new ArrayList<>();
 
         capabilities.add(new Capability("Horizontal", "Adds words horizontally in the puzzle", "horizontal"));
@@ -25,21 +25,37 @@ public class WordSearchService {
         return capabilities;
     }
 
+    public ArrayList<Capability> createSelectedCapabilities(Puzzle p){
+        ArrayList<Capability> capabilities = new ArrayList<>();
+        ArrayList<Capability> allCapabilities = createAllCapabilities();
+
+
+        for (String s: p.getPp().getCapabilities()) {
+            for (int i = 0; i < allCapabilities.size(); i++) {
+                if (allCapabilities.get(i).getKeyword().equals(s)){
+                    capabilities.add(allCapabilities.get(i));
+                }
+            }
+        }
+
+        return capabilities;
+    }
+
     /**
      * This creates a matrix for us to use when generating the puzzle
      * Since items in an ArrayList can't be accessed until they exist, we populate the puzzle with blank spaces
      * @return An ArrayList of blank strings, to the height and width requested by front end
      */
-    public ArrayList<ArrayList<String>> createPuzzle(){
+    public ArrayList<ArrayList<String>> createPuzzle(Puzzle p){
 
         ArrayList<ArrayList<String>> puzzle = new ArrayList<>();
 
         // adds rows to the vertical matrix
-        for(int i = 0; i < PuzzleProperties.getHeight(); i++){
+        for(int i = 0; i < p.getPp().getHeight(); i++){
             ArrayList<String> row = new ArrayList<>();
 
             // fills in a row with blank spaces
-            for(int j = 0; j < PuzzleProperties.getWidth(); j++){
+            for(int j = 0; j < p.getPp().getWidth(); j++){
                 row.add(" ");
             }
             puzzle.add(row);
@@ -53,7 +69,7 @@ public class WordSearchService {
      * @return A word that fits the min/max length parameters
      * @throws FileNotFoundException If /usr/share/dict/words does not exist
      */
-    private String getWord() throws FileNotFoundException {
+    private String getWord(Puzzle p) throws FileNotFoundException {
         File dict = new File("words");
         Scanner scanner = new Scanner(dict);
         scanner.useDelimiter("\\Z");
@@ -65,7 +81,7 @@ public class WordSearchService {
 
         // filters to words between minLength & maxLength
         List<String> filteredWords = words.stream()
-                .filter(word -> word.length() >= PuzzleProperties.getMinLength() && word.length() <= PuzzleProperties.getMaxLength())
+                .filter(word -> word.length() >= p.getPp().getMinLength() && word.length() <= p.getPp().getMaxLength())
                 .collect(Collectors.toList());
 
         // picks a random word from the filtered list
@@ -114,20 +130,20 @@ public class WordSearchService {
     public void placeWords(Puzzle puzzle) throws FileNotFoundException {
         Random r = new Random();
 
-        for(int i = 0; i < PuzzleProperties.getNumberOfWords(); i++) {
+        for(int i = 0; i < puzzle.getPp().getNumberOfWords(); i++) {
             // picks a random coordinate that exists in the matrix
-            int x1 = randomX();
-            int y1 = randomY();
+            int x1 = randomX(puzzle);
+            int y1 = randomY(puzzle);
 
             // gets a random word
-            String word = getWord();
+            String word = getWord(puzzle);
             HashMap<String, Integer> location = new HashMap<>();
             location.put("x1", x1);
             location.put("y1", y1);
             Word w = new Word(word, location);
 
             // picks a random direction based on the capabilities we are supporting
-            int direction = r.nextInt(PuzzleProperties.getCapabilities().size());
+            int direction = r.nextInt(puzzle.getPp().getPuzzleCapabilities().size());
 
             ghostWriter(puzzle, w, direction);
 
@@ -148,9 +164,8 @@ public class WordSearchService {
         int xCoord = w.getLocation().get("x1");
         int yCoord = w.getLocation().get("y1");
 
-        //todo: rewrite this long ass if clause as a method - if going foward check against width/height, if backward against zero
         while(true) {
-            if (fitsInPuzzle(xCoord, yCoord, w, direction)){
+            if (fitsInPuzzle(xCoord, yCoord, w, direction, p)){
                 for (int count = 0; count < w.getWord().length(); count++) {
                     if (!p.getPuzzle().get(yCoord).get(xCoord).equals(" ")) {
                         checkLetters.add(p.getPuzzle().get(yCoord).get(xCoord));
@@ -189,9 +204,9 @@ public class WordSearchService {
                 }
 
                 if (checkLetters.size() > 1) {
-                    xCoord = randomX();
+                    xCoord = randomX(p);
                     w.getLocation().put("x1", xCoord);
-                    yCoord = randomY();
+                    yCoord = randomY(p);
                     w.getLocation().put("y1", yCoord);
                     checkLetters.removeAll(checkLetters);
                 } else if (checkLetters.size() == 1) {
@@ -205,9 +220,9 @@ public class WordSearchService {
                     break;
                 }
             } else {
-                xCoord = randomX();
+                xCoord = randomX(p);
                 w.getLocation().put("x1", xCoord);
-                yCoord = randomY();
+                yCoord = randomY(p);
                 w.getLocation().put("y1", yCoord);
             }
         }
@@ -226,7 +241,7 @@ public class WordSearchService {
         int yCoord = w.getLocation().get("y1");
 
         while(true) {
-            if (fitsInPuzzle(xCoord, yCoord, w, direction)){
+            if (fitsInPuzzle(xCoord, yCoord, w, direction, p)){
                 for (int count = 0; count < w.getWord().length(); count++) {
                     p.getPuzzle().get(yCoord).set(xCoord, (w.getWord().charAt(count) + "").toUpperCase());
                     switch (direction) {
@@ -266,9 +281,9 @@ public class WordSearchService {
                 break;
 
             } else {
-                xCoord = randomX();
+                xCoord = randomX(p);
                 w.getLocation().put("x1", xCoord);
-                yCoord = randomY();
+                yCoord = randomY(p);
                 w.getLocation().put("y1", yCoord);
             }
         }
@@ -281,8 +296,8 @@ public class WordSearchService {
      */
     public Puzzle randomLetters(Puzzle p){
         //loops through the existing matrix
-        for(int i = 0; i < PuzzleProperties.getHeight(); i++){
-            for(int j = 0; j < PuzzleProperties.getWidth(); j++){
+        for(int i = 0; i < p.getPp().getHeight(); i++){
+            for(int j = 0; j < p.getPp().getWidth(); j++){
 
                 // creates a random letter
                 p.getPuzzle().get(i).get(j);
@@ -299,14 +314,14 @@ public class WordSearchService {
         return p;
     }
 
-    public boolean fitsInPuzzle(int xCoord, int yCoord, Word w, int direction){
+    public boolean fitsInPuzzle(int xCoord, int yCoord, Word w, int direction, Puzzle p){
         //if word fits in height & width of puzzle
-        if ((xCoord + w.getWord().length() < PuzzleProperties.getWidth()) && (yCoord + w.getWord().length() < PuzzleProperties.getHeight())
+        if ((xCoord + w.getWord().length() < p.getPp().getWidth()) && (yCoord + w.getWord().length() < p.getPp().getHeight())
                 // and direction is horizontal, vertical, diagonal down
                 && (direction >= 0 && direction <= 2)){ return true; }
 
         //if word fits in width of puzzle & zero vertical bound
-        else if((xCoord + w.getWord().length() < PuzzleProperties.getWidth()) && (yCoord - w.getWord().length() > 0)
+        else if((xCoord + w.getWord().length() < p.getPp().getWidth()) && (yCoord - w.getWord().length() > 0)
                 // and direction is diagonal up
                 && (direction == 3))  { return true; }
 
@@ -321,7 +336,7 @@ public class WordSearchService {
                 && (direction == 6)) { return true; }
 
         // if backward diagonal down, check x against zero and y against height
-        else if((xCoord - w.getWord().length() > 0) && (yCoord + w.getWord().length() < PuzzleProperties.getHeight())
+        else if((xCoord - w.getWord().length() > 0) && (yCoord + w.getWord().length() < p.getPp().getHeight())
                 && (direction == 7)){ return true;}
 
         else{
@@ -335,17 +350,17 @@ public class WordSearchService {
      * Creates a new random X coordinate inside the width of the puzzle
      * @return The new X coord
      */
-    private int randomX(){
+    private int randomX(Puzzle p){
         Random r = new Random();
-        return r.nextInt(PuzzleProperties.getWidth());
+        return r.nextInt(p.getPp().getWidth());
     }
 
     /**
      * Creates a new random Y coordinate inside the height of the puzzle
      * @return The new Y coord
      */
-    private int randomY(){
+    private int randomY(Puzzle p){
         Random r = new Random();
-        return r.nextInt(PuzzleProperties.getHeight());
+        return r.nextInt(p.getPp().getHeight());
     }
 }

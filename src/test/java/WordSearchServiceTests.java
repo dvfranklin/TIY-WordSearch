@@ -100,9 +100,9 @@ public class WordSearchServiceTests {
         //instantiate new Puzzle
         Puzzle testPuzzle = new Puzzle();
         //instantiate a pre-defined set of PuzzleProperties
-        new PuzzleProperties(20, 20, 10, 8, 10, testService.createCapabilities());
+        //new PuzzleProperties(20, 20, 10, 8, 10, testService.createCapabilities(testPuzzle));
         //create a blank Puzzle object
-        testPuzzle.setPuzzle(testService.createPuzzle());
+        testPuzzle.setPuzzle(testService.createPuzzle(testPuzzle));
 
         //determine starting coordinates
         int x1 = 2;

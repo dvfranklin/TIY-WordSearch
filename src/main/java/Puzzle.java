@@ -9,6 +9,14 @@ public class Puzzle {
     private ArrayList<ArrayList<String>> puzzle;
     private ArrayList<Word> words = new ArrayList<>();
 
+    private transient PuzzleProperties pp;
+
+    public Puzzle() {
+    }
+
+    public Puzzle(PuzzleProperties pp) {
+        this.pp = pp;
+    }
 
     public ArrayList<ArrayList<String>> getPuzzle() {
         return puzzle;
@@ -24,5 +32,13 @@ public class Puzzle {
 
     public void setWords(ArrayList<Word> words) {
         this.words = words;
+    }
+
+    public PuzzleProperties getPp() {
+        return pp;
+    }
+
+    public void setPp(PuzzleProperties pp) {
+        this.pp = pp;
     }
 }

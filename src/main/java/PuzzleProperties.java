@@ -7,14 +7,18 @@ import java.util.ArrayList;
  */
 public class PuzzleProperties {
 
-    private static int height;
-    private static int width;
-    private static int numberOfWords;
-    private static int minLength;
-    private static int maxLength;
-    private static ArrayList<Capability> capabilities;
+    private int height;
+    private int width;
+    private int numberOfWords;
+    private int minLength;
+    private int maxLength;
+    private ArrayList<Capability> puzzleCapabilities;
+    private ArrayList<String> capabilities;
 
-    public PuzzleProperties(int height, int width, int numberOfWords, int minLength, int maxLength, ArrayList<Capability> capabilities) {
+    public PuzzleProperties() {
+    }
+
+    public PuzzleProperties(int height, int width, int numberOfWords, int minLength, int maxLength, ArrayList<String> capabilities) {
         this.height = height;
         this.width = width;
         this.numberOfWords = numberOfWords;
@@ -23,7 +27,7 @@ public class PuzzleProperties {
         this.capabilities = capabilities;
     }
 
-    public static int getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -31,7 +35,7 @@ public class PuzzleProperties {
         this.height = height;
     }
 
-    public static int getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -39,7 +43,7 @@ public class PuzzleProperties {
         this.width = width;
     }
 
-    public static int getNumberOfWords() {
+    public int getNumberOfWords() {
         return numberOfWords;
     }
 
@@ -47,7 +51,7 @@ public class PuzzleProperties {
         this.numberOfWords = numberOfWords;
     }
 
-    public static int getMinLength() {
+    public int getMinLength() {
         return minLength;
     }
 
@@ -55,7 +59,7 @@ public class PuzzleProperties {
         this.minLength = minLength;
     }
 
-    public static int getMaxLength() {
+    public int getMaxLength() {
         return maxLength;
     }
 
@@ -63,11 +67,19 @@ public class PuzzleProperties {
         this.maxLength = maxLength;
     }
 
-    public static ArrayList<Capability> getCapabilities() {
+    public ArrayList<String> getCapabilities() {
         return capabilities;
     }
 
-    public void setCapabilities(ArrayList<Capability> capabilities) {
+    public void setCapabilities(ArrayList<String> capabilities) {
         this.capabilities = capabilities;
+    }
+
+    public ArrayList<Capability> getPuzzleCapabilities() {
+        return puzzleCapabilities;
+    }
+
+    public void setPuzzleCapabilities(ArrayList<Capability> puzzleCapabilities) {
+        this.puzzleCapabilities = puzzleCapabilities;
     }
 }
