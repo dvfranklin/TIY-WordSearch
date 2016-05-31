@@ -15,13 +15,13 @@ public class WordSearchService {
 
         capabilities.add(new Capability("Horizontal", "Adds words horizontally in the puzzle", "horizontal"));
         capabilities.add(new Capability("Vertical", "Adds words vertically in the puzzle", "vertical"));
-        capabilities.add(new Capability("Diagonal Down", "Adds words diagonally down in the puzzle", "diagDown"));
+        /*capabilities.add(new Capability("Diagonal Down", "Adds words diagonally down in the puzzle", "diagDown"));
         capabilities.add(new Capability("Diagonal Up", "Adds words diagonally in the puzzle", "diagUp"));
         capabilities.add(new Capability("Backward", "Adds words horizontally backwards in the puzzle", "backHoriz"));
         capabilities.add(new Capability("Backward Vertical", "Adds words vertically backwards in the puzzle", "backVert"));
         capabilities.add(new Capability("Backward Diagonal Up", "Adds words diagonally up and backwards in the puzzle", "backDiagUp"));
         capabilities.add(new Capability("Backward Diagonal Down", "Adds words diagonally down and backwards in the puzzle", "backDiagDown"));
-
+*/
         return capabilities;
     }
 
