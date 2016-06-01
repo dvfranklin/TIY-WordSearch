@@ -52,7 +52,7 @@ public class WordSearch {
 
                     // fills the remaining empty spaces with random letters
                     service.randomLetters(puzzle);
-
+                    
 
                     // returns a JSON representation of the puzzle
                     return gson.toJson(puzzle);
