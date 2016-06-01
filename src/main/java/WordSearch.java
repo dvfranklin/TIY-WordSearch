@@ -21,6 +21,9 @@ public class WordSearch {
         Gson gson = new GsonBuilder().create();
 
 
+
+
+
         // returns JSON representing the capabilities we support in the puzzle
         Spark.get(
                 "/capabilities",
@@ -49,6 +52,7 @@ public class WordSearch {
 
                     // fills the remaining empty spaces with random letters
                     service.randomLetters(puzzle);
+
 
                     // returns a JSON representation of the puzzle
                     return gson.toJson(puzzle);

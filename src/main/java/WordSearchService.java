@@ -15,13 +15,13 @@ public class WordSearchService {
 
         capabilities.add(new Capability("Horizontal", "Adds words horizontally in the puzzle", "horizontal"));
         capabilities.add(new Capability("Vertical", "Adds words vertically in the puzzle", "vertical"));
-        /*capabilities.add(new Capability("Diagonal Down", "Adds words diagonally down in the puzzle", "diagDown"));
+        capabilities.add(new Capability("Diagonal Down", "Adds words diagonally down in the puzzle", "diagDown"));
         capabilities.add(new Capability("Diagonal Up", "Adds words diagonally in the puzzle", "diagUp"));
         capabilities.add(new Capability("Backward", "Adds words horizontally backwards in the puzzle", "backHoriz"));
         capabilities.add(new Capability("Backward Vertical", "Adds words vertically backwards in the puzzle", "backVert"));
         capabilities.add(new Capability("Backward Diagonal Up", "Adds words diagonally up and backwards in the puzzle", "backDiagUp"));
         capabilities.add(new Capability("Backward Diagonal Down", "Adds words diagonally down and backwards in the puzzle", "backDiagDown"));
-*/
+
         return capabilities;
     }
 
@@ -143,7 +143,7 @@ public class WordSearchService {
             Word w = new Word(word, location);
 
             // picks a random direction based on the capabilities we are supporting
-            int direction = r.nextInt(puzzle.getPp().getPuzzleCapabilities().size());
+            Capability direction = puzzle.getPp().getPuzzleCapabilities().get(r.nextInt(puzzle.getPp().getPuzzleCapabilities().size()));
 
             ghostWriter(puzzle, w, direction);
 
@@ -157,7 +157,7 @@ public class WordSearchService {
      * @param direction An integer representing the direction the word is going (horizontal, vertical, diagonal, etc.)
      * @throws FileNotFoundException Because it calls the getWord function that needs a dictionary file
      */
-    public void ghostWriter(Puzzle p, Word w, int direction) throws FileNotFoundException {
+    public void ghostWriter(Puzzle p, Word w, Capability direction) throws FileNotFoundException {
 
         ArrayList<String> checkLetters = new ArrayList<>();
         int intersectPoint = 0;
@@ -171,36 +171,39 @@ public class WordSearchService {
                         checkLetters.add(p.getPuzzle().get(yCoord).get(xCoord));
                         intersectPoint = count;
                     }
-                    switch (direction) {
-                        case (0):
+
+
+                    switch(direction.getKeyword()){
+                        case ("horizontal"):
                             xCoord++;
                             break;
-                        case (1):
+                        case ("vertical"):
                             yCoord++;
                             break;
-                        case (2):
+                        case ("diagDown"):
                             xCoord++;
                             yCoord++;
                             break;
-                        case (3):
+                        case ("diagUp"):
                             xCoord++;
                             yCoord--;
                             break;
-                        case (4):
+                        case ("backHoriz"):
                             xCoord--;
                             break;
-                        case (5):
+                        case ("backVert"):
                             yCoord--;
                             break;
-                        case (6):
+                        case ("backDiagUp"):
                             xCoord--;
                             yCoord--;
                             break;
-                        case (7):
+                        case ("backDiagDown"):
                             xCoord--;
                             yCoord++;
                             break;
                     }
+
                 }
 
                 if (checkLetters.size() > 1) {
@@ -234,7 +237,7 @@ public class WordSearchService {
      * @param w
      * @param direction
      */
-    private void printWord(Puzzle p, Word w, int direction){
+    private void printWord(Puzzle p, Word w, Capability direction){
         // for (each letter in word)
         // add that letter to the correct spot in matrix
         int xCoord = w.getLocation().get("x1");
@@ -244,32 +247,32 @@ public class WordSearchService {
             if (fitsInPuzzle(xCoord, yCoord, w, direction, p)){
                 for (int count = 0; count < w.getWord().length(); count++) {
                     p.getPuzzle().get(yCoord).set(xCoord, (w.getWord().charAt(count) + "").toUpperCase());
-                    switch (direction) {
-                        case (0):
+                    switch(direction.getKeyword()){
+                        case ("horizontal"):
                             xCoord++;
                             break;
-                        case (1):
+                        case ("vertical"):
                             yCoord++;
                             break;
-                        case (2):
+                        case ("diagDown"):
                             xCoord++;
                             yCoord++;
                             break;
-                        case (3):
+                        case ("diagUp"):
                             xCoord++;
                             yCoord--;
                             break;
-                        case (4):
+                        case ("backHoriz"):
                             xCoord--;
                             break;
-                        case (5):
+                        case ("backVert"):
                             yCoord--;
                             break;
-                        case (6):
+                        case ("backDiagUp"):
                             xCoord--;
                             yCoord--;
                             break;
-                        case (7):
+                        case ("backDiagDown"):
                             xCoord--;
                             yCoord++;
                             break;
@@ -314,30 +317,32 @@ public class WordSearchService {
         return p;
     }
 
-    public boolean fitsInPuzzle(int xCoord, int yCoord, Word w, int direction, Puzzle p){
+    public boolean fitsInPuzzle(int xCoord, int yCoord, Word w, Capability direction, Puzzle p){
         //if word fits in height & width of puzzle
         if ((xCoord + w.getWord().length() < p.getPp().getWidth()) && (yCoord + w.getWord().length() < p.getPp().getHeight())
                 // and direction is horizontal, vertical, diagonal down
-                && (direction >= 0 && direction <= 2)){ return true; }
+                && (direction.getKeyword().equals("horizontal") ||
+                direction.getKeyword().equals("vertical") ||
+                direction.getKeyword().equals("diagDown"))){ return true; }
 
         //if word fits in width of puzzle & zero vertical bound
         else if((xCoord + w.getWord().length() < p.getPp().getWidth()) && (yCoord - w.getWord().length() > 0)
                 // and direction is diagonal up
-                && (direction == 3))  { return true; }
+                && (direction.getKeyword().equals("diagUp")))  { return true; }
 
         // if backwards horizontal, check against zero
-        else if((xCoord - w.getWord().length() > 0) && (direction == 4)){ return true; }
+        else if((xCoord - w.getWord().length() > 0) && (direction.getKeyword().equals("backHoriz"))){ return true; }
 
         // if backwards vertical, check against zero
-        else if ((yCoord - w.getWord().length() > 0) && (direction == 5)) { return true; }
+        else if ((yCoord - w.getWord().length() > 0) && (direction.getKeyword().equals("backVert"))) { return true; }
 
         // if backward diagonal up, check both x & y against zero
         else if((xCoord - w.getWord().length() > 0) && (yCoord - w.getWord().length() > 0)
-                && (direction == 6)) { return true; }
+                && (direction.getKeyword().equals("backDiagUp"))) { return true; }
 
         // if backward diagonal down, check x against zero and y against height
         else if((xCoord - w.getWord().length() > 0) && (yCoord + w.getWord().length() < p.getPp().getHeight())
-                && (direction == 7)){ return true;}
+                && (direction.getKeyword().equals("backDiagDown"))){ return true;}
 
         else{
             return false;

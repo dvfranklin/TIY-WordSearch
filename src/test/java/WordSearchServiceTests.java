@@ -119,7 +119,7 @@ public class WordSearchServiceTests {
         //create a new Word object spelled "testing" and set the testLocation hashmap into it
         Word testingWord = new Word("testing", testLocation);
         //set direction to horizontal
-        int testDirection = 0;
+        Capability testDirection = new Capability("horizontal", "horizontal", "horizontal");
 
         //run ghostWriter
         testService.ghostWriter(testPuzzle, testingWord, testDirection);
