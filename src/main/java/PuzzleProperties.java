@@ -27,6 +27,14 @@ public class PuzzleProperties {
         this.capabilities = capabilities;
     }
 
+    public PuzzleProperties(int height, int width, int numberOfWords, int minLength, int maxLength) {
+        this.height = height;
+        this.width = width;
+        this.numberOfWords = numberOfWords;
+        this.minLength = minLength;
+        this.maxLength = maxLength;
+    }
+
     public int getHeight() {
         return height;
     }

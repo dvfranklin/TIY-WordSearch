@@ -8,6 +8,10 @@ public class Word {
     private String word;
     private HashMap<String, Integer> location;
 
+    public Word(String word) {
+        this.word = word;
+    }
+
     public Word(String word, HashMap<String, Integer> location) {
         this.word = word;
         this.location = location;

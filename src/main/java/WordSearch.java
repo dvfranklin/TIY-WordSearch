@@ -5,9 +5,6 @@ import spark.Spark;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
-
 public class WordSearch {
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -45,14 +42,14 @@ public class WordSearch {
                     // creates new puzzle with the requested properties
                     Puzzle puzzle = new Puzzle(pp);
                     puzzle.setPuzzle(service.createPuzzle(puzzle));
-                    puzzle.getPp().setPuzzleCapabilities(service.createSelectedCapabilities(puzzle));
+                    puzzle.getProperties().setPuzzleCapabilities(service.createSelectedCapabilities(puzzle));
 
                     // places the proper amount of words of the correct size into the matrix
                     service.placeWords(puzzle);
 
                     // fills the remaining empty spaces with random letters
                     service.randomLetters(puzzle);
-                    
+
 
                     // returns a JSON representation of the puzzle
                     return gson.toJson(puzzle);
